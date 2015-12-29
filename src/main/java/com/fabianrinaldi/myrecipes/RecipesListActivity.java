@@ -8,8 +8,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
+
+import java.util.ArrayList;
 
 public class RecipesListActivity extends AppCompatActivity {
+
+    private DatabaseHandler dbHandler;
+    private ListView recipesListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,6 +24,13 @@ public class RecipesListActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        dbHandler = new DatabaseHandler(this);
+        recipesListView = (ListView) findViewById(R.id.recipesListView);
+        ArrayList<Recipe> recipes = new ArrayList<>();
+        recipes = (ArrayList<Recipe>) dbHandler.getAllRecipes();
+
+        RecipeListAdapter listAdapter = new RecipeListAdapter(this,recipes);
+        recipesListView.setAdapter(listAdapter);
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
